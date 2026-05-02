@@ -2,6 +2,8 @@
 
 Slides from Sarah Deaton's talk at Write the Docs Portland 2026.
 
+If you came here from the QR code, [**RESOURCES.md**](./RESOURCES.md) is the takeaway list — `worktree`, `reflog`, `--update-refs`, and the bonus picks (`log -S`, `rerere`, `bisect`, `jj`, etc.).
+
 ## Run the slides
 
 The deck is a single-page React app. `Talk.html` loads the JSX files at runtime and compiles them in the browser with Babel. Opening `Talk.html` directly with `file://` shows a blank page because browsers block script loading from the local filesystem — serve the directory over HTTP instead.
@@ -40,7 +42,5 @@ git-viz.jsx     reusable git visualizations
 videos/         clips referenced by the video slides
 RESOURCES.md    every command from the talk + a few extras
 ```
-
-If you came here from the QR code, [**RESOURCES.md**](./RESOURCES.md) is the takeaway list — `worktree`, `reflog`, `--update-refs`, and the bonus picks (`log -S`, `rerere`, `bisect`, `jj`, etc.).
 
 A static export is available at `?print` — open <http://localhost:8000/Talk.html?print> and use the browser's Print to PDF.

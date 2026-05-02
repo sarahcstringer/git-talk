@@ -6,11 +6,10 @@
 // arrow/page keys still navigate.
 const SLIDES = [
   { c: SlideTitle,           max: 0 },
-  { c: SlideAbout,           max: 0 },
   { c: SlideHowWeLearn,      max: 2 },
   { c: SlideNineYears,       max: 1 },
   { c: SlideTurningPoint,    max: 1 },
-  { c: SlideMeetACAAS,       max: 1 },
+  { c: SlideMeetACAAS,       max: 2 },
   { c: SlideVideo,           max: 0, src: 'videos/acaas.mp4' },
   { c: SlideScenario,        max: 1 },
   { c: SlideAct1,            max: 0 },
@@ -20,14 +19,14 @@ const SLIDES = [
   { c: SlideVideo,           max: 0, src: 'videos/with-worktrees.mp4' },
   { c: SlideAct2,            max: 0 },
   { c: SlideVideo,           max: 0, src: 'videos/setup-reflog.mp4' },
-  { c: SlideReflogModel,     max: 4 },
+  { c: SlideReflogModel,     max: 3 },
   { c: SlideVideo,           max: 0, src: 'videos/with-reflog.mp4' },
   { c: SlideAct3,            max: 0 },
   { c: SlideWhyStack,        max: 1 },
+  { c: SlideUpdateRefsViz,   max: 2 },
   { c: SlideVideo,           max: 0, src: 'videos/update-refs.mp4' },
   { c: SlideJujutsu,         max: 2 },
-  { c: SlideRecap,           max: 2 },
-  { c: SlideClose,           max: 2 },
+  { c: SlideRecap,           max: 3 },
   { c: SlideThanks,          max: 0 },
 ];
 

@@ -220,7 +220,17 @@ function SlideMeetACAAS({ step = 0 }) {
       </div>
       <Reveal show={step >= 1}>
         <div style={{
-          marginTop: 48, padding: '20px 28px', borderRadius: 12,
+          marginTop: 40, display: 'flex', alignItems: 'center', gap: 24,
+          fontFamily: "'Fira Code', monospace", fontSize: 32,
+        }}>
+          <span style={{ color: GV.dim }}>"hello world"</span>
+          <span style={{ color: GV.purple, fontSize: 28 }}>→</span>
+          <span style={{ color: GV.purple, fontWeight: 700 }}>"HELLO WORLD"</span>
+        </div>
+      </Reveal>
+      <Reveal show={step >= 2}>
+        <div style={{
+          marginTop: 32, padding: '20px 28px', borderRadius: 12,
           background: GV.surface, border: `1px solid ${GV.border}`,
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14,
         }}>
@@ -383,30 +393,25 @@ function SlideReflogModel({ step = 0 }) {
     { x: 460, label: 'E', color: GV.purple },
     { x: 560, label: 'F', color: GV.purple },
   ];
-  const keep = step >= 1 ? 3 : 6;
-  const headers = [
-    'Branches are pointers.',
-    <Mono size={30} color={GV.red}>$ git reset --hard HEAD~3</Mono>,
-    <span><span style={{ color: GV.green }}>reflog</span> is the trail.</span>,
-  ];
+  const keep = step >= 2 ? 3 : 6;
 
   return (
     <Center label="10 Reflog Model">
       <div style={{ height: 56, display: 'flex', alignItems: 'center' }}>
-        <Big size={36} weight={600} color={GV.dim}>{headers[Math.min(step, 2)]}</Big>
+        <Big size={36} weight={600}>Where did the commit go?</Big>
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, marginTop: 24 }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, marginTop: 16 }}>
         {commits.slice(0, -1).map((c, i) => (
           <Edge key={i} x1={c.x} y1={mainY} x2={commits[i+1].x} y2={mainY}
             color={commits[i+1].color} ghost={i >= keep - 1} />
         ))}
         {commits.map((c, i) => (
           <CommitDot key={i} cx={c.x} cy={mainY} label={c.label} color={c.color}
-            active={i === keep - 1 && step >= 1} ghost={i >= keep}
-            pulse={i === keep - 1 && step === 1} />
+            active={i === keep - 1 && step >= 2} ghost={i >= keep}
+            pulse={i === keep - 1 && step === 2} />
         ))}
-        <BranchLabel x={commits[keep-1].x} y={mainY} name="HEAD" color={step >= 1 ? GV.red : GV.blue} below />
-        <g style={{ opacity: step >= 2 ? 1 : 0, transition: 'opacity 0.4s' }}>
+        <BranchLabel x={commits[keep-1].x} y={mainY} name="HEAD" color={step >= 2 ? GV.red : GV.blue} below />
+        <g style={{ opacity: step >= 3 ? 1 : 0, transition: 'opacity 0.4s' }}>
           {commits.slice(3).map((c, i) => (
             <g key={i}>
               <circle cx={c.x} cy={mainY - 42} r={4} fill={GV.green} opacity={0.7} />
@@ -416,43 +421,24 @@ function SlideReflogModel({ step = 0 }) {
           ))}
         </g>
       </svg>
-      <Reveal show={step >= 3}>
-        <div style={{
-          marginTop: 24, padding: '16px 28px', borderRadius: 12,
-          background: GV.surface, border: `1px solid ${GV.border}`,
-          fontFamily: "'Fira Code', monospace", fontSize: 16, textAlign: 'left',
-          maxWidth: 720, lineHeight: 1.85,
-        }}>
-          <div>
-            <span style={{ color: GV.blue, fontWeight: 700 }}>commits</span>
-            <span style={{ color: GV.dim }}> · immutable objects in .git/objects, addressed by SHA</span>
-          </div>
-          <div>
-            <span style={{ color: GV.purple, fontWeight: 700 }}>branches, HEAD</span>
-            <span style={{ color: GV.dim }}> · files holding one SHA each</span>
-          </div>
-          <div>
-            <span style={{ color: GV.red, fontWeight: 700 }}>reset / rebase / amend</span>
-            <span style={{ color: GV.dim }}> · moves the pointer · leaves the commit</span>
-          </div>
-          <div>
-            <span style={{ color: GV.green, fontWeight: 700 }}>reflog</span>
-            <span style={{ color: GV.dim }}> · logs every pointer move · kept 90 days</span>
-          </div>
-        </div>
-      </Reveal>
-      <Reveal show={step >= 4}>
-        <div style={{ marginTop: 32, textAlign: 'center' }}>
-          <Big size={48} weight={800} color={GV.green}>commit often.</Big>
-          <div style={{
-            marginTop: 12, fontFamily: "'Outfit', sans-serif", fontSize: 20,
-            color: GV.dim, maxWidth: 760, fontStyle: 'italic',
-          }}>
-            Bootcamp said <span style={{ color: GV.red }}>be careful</span>.
-            Reflog says <span style={{ color: GV.green }}>commit recklessly</span> — ugly WIPs are fine, it's all recoverable.
-          </div>
-        </div>
-      </Reveal>
+      <div style={{
+        marginTop: 20, display: 'flex', flexDirection: 'column',
+        gap: 14, alignItems: 'center',
+      }}>
+        <Reveal show={step >= 1}>
+          <Big size={30} weight={500}>
+            <span style={{ color: GV.dim }}>Nowhere.</span> HEAD just moved.
+          </Big>
+        </Reveal>
+        <Reveal show={step >= 2}>
+          <Mono size={26} color={GV.red}>$ git reset --hard HEAD~3</Mono>
+        </Reveal>
+        <Reveal show={step >= 3}>
+          <Big size={30} weight={500}>
+            <span style={{ color: GV.green }}>reflog</span> is the trail HEAD left.
+          </Big>
+        </Reveal>
+      </div>
     </Center>
   );
 }
@@ -558,6 +544,70 @@ function SlideWhyStack({ step = 0 }) {
   );
 }
 
+function SlideUpdateRefsViz({ step = 0 }) {
+  const W = 700, H = 200;
+  const trunkY = 140;
+  const stackY = 60;
+  const m3x = 320, m4x = 460;
+  const galX = 320, gaRx = 460;
+  const clLx = 460, clRx = 600;
+
+  return (
+    <Center label="What Update-Refs Does" bg={`radial-gradient(ellipse at 50% 55%, ${GV.amber}10 0%, transparent 55%)`}>
+      <Kicker color={GV.amber}>git rebase --update-refs main</Kicker>
+      <Big size={46}>
+        Both refs move <span style={{ color: GV.amber }}>at once</span>.
+      </Big>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, marginTop: 28 }}>
+        <Edge x1={80} y1={trunkY} x2={200} y2={trunkY} color={GV.blue} />
+        <Edge x1={200} y1={trunkY} x2={m3x} y2={trunkY} color={GV.blue} />
+        {step >= 1 && <Edge x1={m3x} y1={trunkY} x2={m4x} y2={trunkY} color={GV.blue} />}
+
+        <CommitDot cx={80} cy={trunkY} label="m1" color={GV.blue} />
+        <CommitDot cx={200} cy={trunkY} label="m2" color={GV.blue} />
+        <CommitDot cx={m3x} cy={trunkY} label="m3" color={GV.blue} />
+        {step >= 1 && <CommitDot cx={m4x} cy={trunkY} label="m4" color={GV.blue} active pulse={step === 1} />}
+
+        <BranchLabel x={step >= 1 ? m4x : m3x} y={trunkY} name="main" color={GV.blue} below />
+
+        {step < 2 && <g>
+          <Edge x1={m3x} y1={trunkY} x2={galX} y2={stackY} color={GV.amber} ghost={step === 1} />
+          <Edge x1={galX} y1={stackY} x2={clLx} y2={stackY} color={GV.amber} ghost={step === 1} />
+          <CommitDot cx={galX} cy={stackY} label="ga" color={GV.amber} ghost={step === 1} />
+          <CommitDot cx={clLx} cy={stackY} label="cl" color={GV.amber} ghost={step === 1} />
+          <BranchLabel x={galX} y={stackY} name="emphasize-ga" color={GV.amber} />
+          <BranchLabel x={clLx} y={stackY} name="ga-changelog" color={GV.amber} below />
+        </g>}
+
+        {step >= 2 && <g>
+          <Edge x1={m4x} y1={trunkY} x2={gaRx} y2={stackY} color={GV.amber} />
+          <Edge x1={gaRx} y1={stackY} x2={clRx} y2={stackY} color={GV.amber} />
+          <CommitDot cx={gaRx} cy={stackY} label="ga'" color={GV.amber} />
+          <CommitDot cx={clRx} cy={stackY} label="cl'" color={GV.amber} active />
+          <BranchLabel x={gaRx} y={stackY} name="emphasize-ga" color={GV.amber} />
+          <BranchLabel x={clRx} y={stackY} name="ga-changelog" color={GV.amber} below />
+        </g>}
+      </svg>
+      <Reveal show={step === 1}>
+        <div style={{
+          marginTop: 8, fontFamily: "'Outfit', sans-serif", fontSize: 18,
+          color: GV.dim, fontStyle: 'italic',
+        }}>
+          main moved forward, the stack hasn't.
+        </div>
+      </Reveal>
+      <Reveal show={step >= 2}>
+        <div style={{
+          marginTop: 8, fontFamily: "'Outfit', sans-serif", fontSize: 18,
+          color: GV.dim, fontStyle: 'italic',
+        }}>
+          One pass through the conflicts, and both refs follow.
+        </div>
+      </Reveal>
+    </Center>
+  );
+}
+
 function SlideJujutsu({ step = 0 }) {
   return (
     <Center label="Jujutsu" bg={`radial-gradient(ellipse at 50% 60%, ${GV.pink}12 0%, transparent 55%)`}>
@@ -583,8 +633,7 @@ function SlideJujutsu({ step = 0 }) {
           color: GV.dim, maxWidth: 940, lineHeight: 1.55,
         }}>
           No staging area. Every change is a snapshot. Conflicts become
-          first-class objects you can carry around. Solves papercuts I didn't
-          know I had.
+          first-class objects you can carry around.
         </div>
       </Reveal>
     </Center>
@@ -639,6 +688,11 @@ function SlideRecap({ step = 0 }) {
           </div>
         ))}
       </div>
+      <Reveal show={step >= 3}>
+        <div style={{ marginTop: 48, textAlign: 'center' }}>
+          <Big size={48} weight={800} color={GV.green}>commit often</Big>
+        </div>
+      </Reveal>
     </Center>
   );
 }
@@ -703,7 +757,7 @@ Object.assign(window, {
   SlideScenario,
   SlideAct1, SlideWorktreeExplain, SlideWorktreeViz,
   SlideAct2, SlideReflogModel,
-  SlideAct3, SlideWhyStack, SlideJujutsu,
+  SlideAct3, SlideWhyStack, SlideUpdateRefsViz, SlideJujutsu,
   SlideVideo,
   SlideRecap, SlideClose, SlideThanks,
 });
